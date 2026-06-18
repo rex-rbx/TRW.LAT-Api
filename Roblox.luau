@@ -1,4 +1,5 @@
-const HttpService = cloneref and cloneref(game:GetService("HttpService")) or game:GetService("HttpService")
+const HttpService = cloneref and cloneref(game:GetService("HttpService")) or game:GetService("HttpService") -- fallback to no cloneref if it doesnt exist
+const request = request or http_request or (http and http.request) or httprequest or function(...) return HttpService:RequestAsync(...) end -- fallback (again)
 const urlData = "https://trw.lat/api/lvlol/captchaLess"
 const curFreeKey: string = HttpService:JSONDecode(request({Url = urlData, Method = "GET"}).Body).freeKey
 assert(curFreeKey, "Expected freeKey in decoded JSON")
