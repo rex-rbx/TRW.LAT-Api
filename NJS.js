@@ -79,14 +79,9 @@ class FEARBypass {
             throw new Error('Failed to get free key');
         }
         const encodedUrl = encodeURIComponent(url);
-        const bypassUrl = `${this.baseURL}/bypass`;
+        const requestUrl = `${this.baseURL}/bypass?url=${encodedUrl}&mode=normal&origin=${encodeURIComponent(origin)}`;
         try {
-            const response = await axios.get(bypassUrl, {
-                params: {
-                    url: encodedUrl,
-                    mode: 'thread',
-                    origin: origin
-                },
+            const response = await axios.get(requestUrl, {
                 headers: {
                     'x-api-key': freeKey,
                     'Content-Type': 'application/json'
@@ -105,7 +100,10 @@ class FEARBypass {
             }
         } catch (error) {
             if (error.response) {
-                throw new Error(`API error: ${error.response.status} - ${error.response.data}`);
+                const errorData = typeof error.response.data === 'object' 
+                    ? JSON.stringify(error.response.data) 
+                    : error.response.data;
+                throw new Error(`API error: ${error.response.status} - ${errorData}`);
             } else {
                 throw new Error(`Request failed: ${error.message}`);
             }
@@ -114,7 +112,7 @@ class FEARBypass {
     async BypassSync(url, options = {}) {
         const {
             origin = 'NotApplicable',
-            timeout = 90000, // 90 seconds
+            timeout = 90000,
             refresh = false
         } = options;
         if (!refresh && this.cache.has(url)) {
@@ -128,14 +126,9 @@ class FEARBypass {
             throw new Error('Failed to get free key');
         }
         const encodedUrl = encodeURIComponent(url);
-        const bypassUrl = `${this.baseURL}/bypass`;
+        const requestUrl = `${this.baseURL}/bypass?url=${encodedUrl}&mode=normal&origin=${encodeURIComponent(origin)}`;
         try {
-            const response = await axios.get(bypassUrl, {
-                params: {
-                    url: encodedUrl,
-                    mode: 'normal',
-                    origin: origin
-                },
+            const response = await axios.get(requestUrl, {
                 headers: {
                     'x-api-key': freeKey,
                     'Content-Type': 'application/json'
@@ -157,7 +150,10 @@ class FEARBypass {
             if (error.code === 'ECONNABORTED') {
                 throw new Error(`Bypass timed out after ${timeout}ms`);
             } else if (error.response) {
-                throw new Error(`API error: ${error.response.status} - ${error.response.data}`);
+                const errorData = typeof error.response.data === 'object' 
+                    ? JSON.stringify(error.response.data) 
+                    : error.response.data;
+                throw new Error(`API error: ${error.response.status} - ${errorData}`);
             } else {
                 throw new Error(`Request failed: ${error.message}`);
             }
