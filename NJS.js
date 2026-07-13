@@ -1,10 +1,8 @@
-function Bypass(Url) {
+module.exports = ((Url) => {
     if (typeof Url !== 'string') {
         throw new Error(`Expected string argument 'Url' to Bypass, got ${typeof Url}`);
     }
-    
     let curFreeKey = null;
-    
     return fetch('https://trw.lat/api/lvlol/captchaLess')
         .then(function(response) {
             return response.json();
@@ -37,6 +35,4 @@ function Bypass(Url) {
         .catch(function(error) {
             throw new Error(`Error while attempting to bypass: ${error.message}`);
         });
-}
-
-module.exports = Bypass;
+})
