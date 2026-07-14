@@ -34,7 +34,6 @@ class FEARBypass:
                 f"{self.base_url}/bypass",
                 params={
                     "url": encoded_url,
-                    "mode": "thread",
                     "origin": origin
                 },
                 headers={
