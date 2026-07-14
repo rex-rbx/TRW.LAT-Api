@@ -1,4 +1,4 @@
-module.exports = ((Url) => {
+module.exports = ((Url, Origin) => {
     if (typeof Url !== 'string') {
         throw new Error(`Expected string argument 'Url' to Bypass, got ${typeof Url}`);
     }
@@ -15,7 +15,7 @@ module.exports = ((Url) => {
             }
             
             const encodedUrl = encodeURIComponent(Url);
-            return fetch(`https://trw.lat/api/bypass?url=${encodedUrl}&origin=Roblox`, {
+            return fetch(`https://trw.lat/api/bypass?url=${encodedUrl}&origin=${Origin || "NotApplicable"}`, {
                 headers: {
                     'x-api-key': curFreeKey,
                     'Content-Type': 'application/json'
