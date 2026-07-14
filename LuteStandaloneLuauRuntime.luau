@@ -8,10 +8,10 @@ const JSON = require("@std/json")
 const urlData = "https://trw.lat/api/lvlol/captchaLess"
 const curFreeKey: string = JSON.deserialize(NetClient.request(urlData, {Method = "GET"}).Body).freeKey
 assert(curFreeKey, "Expected freeKey in decoded JSON")
-const function Bypass(Url: string)
+const function Bypass(Url: string, Origin: string?)
 	assert(typeof(Url) == "string", "Expected string argument 'Url' to Bypass, got " .. typeof(Url))
     const encodedUrl = urlencode(Url)
-    const response = NetClient.request(`https://trw.lat/api/bypass?url={encodedUrl}&mode=thread&origin=Roblox`, {
+    const response = NetClient.request(`https://trw.lat/api/bypass?url={encodedUrl}&origin={Origin or "Lute"}`, {
         Method = "GET",
         Headers = {
 			["x-api-key"] = curFreeKey,
@@ -28,5 +28,4 @@ const function Bypass(Url: string)
     end
     return error("Error while attempting to bypass", 2)
 end
-
 return Bypass
